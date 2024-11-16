@@ -1,13 +1,13 @@
 const express = require('express');
 const fs = require('fs');
 const app = express();
-const PORT = 5000;
+const PORT = 5050;
 
 // Endpoint to get all users
 app.get('/users', (req, res) => {
   fs.readFile('users.json', 'utf8', (err, data) => {
     if (err) {
-      res.status(500).send('Failed to read data from file');
+      res.status(500).send('Data cannot be accessed');
     } else {
       res.send(JSON.parse(data));
     }
@@ -18,14 +18,14 @@ app.get('/users', (req, res) => {
 app.get('/users/:id', (req, res) => {
   fs.readFile('users.json', 'utf8', (err, data) => {
     if (err) {
-      res.status(500).send('Failed to read data from file');
+      res.status(500).send('Data cannot be accessed');
     } else {
       const users = JSON.parse(data);
       const user = Object.values(users).find(user => user.id === parseInt(req.params.id));
       if (user) {
         res.send(user);
       } else {
-        res.status(404).send('User not found');
+        res.status(404).send('Invalid user');
       }
     }
   });
@@ -35,14 +35,14 @@ app.get('/users/:id', (req, res) => {
 app.get('/users/profession/:profession', (req, res) => {
   fs.readFile('users.json', 'utf8', (err, data) => {
     if (err) {
-      res.status(500).send('Failed to read data from file');
+      res.status(500).send('Data cannot be accessed');
     } else {
       const users = JSON.parse(data);
       const filteredUsers = Object.values(users).filter(user => user.profession.toLowerCase() === req.params.profession.toLowerCase());
       if (filteredUsers.length > 0) {
         res.send(filteredUsers);
       } else {
-        res.status(404).send('No users found with that profession');
+        res.status(404).send('Invalid profession');
       }
     }
   });
@@ -52,14 +52,14 @@ app.get('/users/profession/:profession', (req, res) => {
 app.get('/users/name/:name', (req, res) => {
   fs.readFile('users.json', 'utf8', (err, data) => {
     if (err) {
-      res.status(500).send('Failed to read data from file');
+      res.status(500).send('Data cannot be accessed');
     } else {
       const users = JSON.parse(data);
       const user = Object.values(users).find(user => user.name.toLowerCase() === req.params.name.toLowerCase());
       if (user) {
         res.send(user);
       } else {
-        res.status(404).send('User not found');
+        res.status(404).send('Invalid user');
       }
     }
   });
